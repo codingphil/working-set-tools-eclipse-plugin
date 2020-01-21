@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
+   <description name="Working Set Tools - Update Site" url="https://codingphil.github.io/working-set-tools-eclipse-plugin/updatesite">
+      An Eclipse Plugin which allows the user to create a Working Set which contains the project and project dependencies.
+   </description>
    <feature url="features/dev.lonsing.eclipse.plugins.workingsettools.feature_1.0.0.202001212123.jar" id="dev.lonsing.eclipse.plugins.workingsettools.feature" version="1.0.0.202001212123"/>
 </site>
