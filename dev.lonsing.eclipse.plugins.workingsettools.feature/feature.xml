@@ -64,6 +64,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
    </license>
 
+   <url>
+      <update label="Working Set Tools - Update Site" url="https://codingphil.github.io/working-set-tools-eclipse-plugin/updatesite"/>
+   </url>
+
    <plugin
          id="dev.lonsing.eclipse.plugins.workingsettools"
          download-size="0"
