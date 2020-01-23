@@ -14,12 +14,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.apache.maven.model.Dependency;
-import org.apache.maven.project.MavenProject;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.m2e.core.MavenPlugin;
+import org.eclipse.m2e.core.embedder.ArtifactRef;
 import org.eclipse.m2e.core.project.IMavenProjectFacade;
 import org.eclipse.m2e.core.project.IMavenProjectRegistry;
 
@@ -66,12 +65,8 @@ public class DependencyCalculator {
       return Collections.emptyList();
     }
     IMavenProjectFacade mavenProjectFacade = projectRegistry.getProject(project);
-    MavenProject mavenProject = mavenProjectFacade.getMavenProject();
-    if (mavenProject == null) {
-      return Collections.emptyList();
-    }
-    List<Dependency> dependencies = mavenProject.getModel().getDependencies();
-    return dependencies.stream().map(this::getArtifactIdWithoutVersion).map(this.artifactIdToMavenProject::get)
+    Set<ArtifactRef> artifacts = mavenProjectFacade.getMavenProjectArtifacts();
+    return artifacts.stream().map(this::getArtifactIdWithoutVersion).map(this.artifactIdToMavenProject::get)
         .filter(Objects::nonNull).collect(Collectors.toList());
   }
 
@@ -86,8 +81,8 @@ public class DependencyCalculator {
     }
   }
 
-  private String getArtifactIdWithoutVersion(Dependency dependency) {
-    return dependency.getGroupId() + ":" + dependency.getArtifactId();
+  private String getArtifactIdWithoutVersion(ArtifactRef artifactRef) {
+    return artifactRef.getGroupId() + ":" + artifactRef.getArtifactId();
   }
 
   private String getArtifactIdWithoutVersion(IProject project) {
