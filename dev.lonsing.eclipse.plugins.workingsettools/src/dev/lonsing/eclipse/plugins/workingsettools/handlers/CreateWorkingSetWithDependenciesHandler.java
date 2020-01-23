@@ -1,22 +1,21 @@
 package dev.lonsing.eclipse.plugins.workingsettools.handlers;
 
+import static dev.lonsing.eclipse.plugins.workingsettools.handlers.ProjectUtil.getActiveProject;
+import static dev.lonsing.eclipse.plugins.workingsettools.handlers.ProjectUtil.isJavaProject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.IWorkingSetManager;
@@ -48,14 +47,6 @@ public class CreateWorkingSetWithDependenciesHandler extends AbstractHandler {
     return null;
   }
 
-  private boolean isJavaProject(IProject project) throws ExecutionException {
-    try {
-      return Arrays.asList(project.getDescription().getNatureIds()).indexOf(JavaCore.NATURE_ID) != -1;
-    } catch (CoreException e) {
-      throw new ExecutionException(Messages.CreateWorkingSetWithDependenciesHandler_FailedToCheckJavaProject, e);
-    }
-  }
-
   private IWorkingSet createWorkingSet(String name, IProject[] selectedProjects) {
     IWorkingSetManager workingSetManager = PlatformUI.getWorkbench().getWorkingSetManager();
     IWorkingSet workingSet = workingSetManager.createWorkingSet(name, selectedProjects);
@@ -79,13 +70,15 @@ public class CreateWorkingSetWithDependenciesHandler extends AbstractHandler {
 
   private List<IProject> getProjectDependencies(IProject rootProject) throws ExecutionException {
     try {
+      DependencyCalculator dependencyCalculator = new DependencyCalculator();
       List<IProject> projects = new ArrayList<>();
-      projects.addAll(Arrays.asList(rootProject.getReferencedProjects()));
+      projects.addAll(dependencyCalculator.getReferencedProjects(rootProject));
       // Use loop instead of a recursion to avoid endless loop in case of a circular
       // dependency.
       int i = 0;
       while (i < projects.size()) {
-        IProject[] currentReferencedProjects = projects.get(i).getReferencedProjects();
+        IProject currentProject = projects.get(i);
+        Set<IProject> currentReferencedProjects = dependencyCalculator.getReferencedProjects(currentProject);
         for (var project : currentReferencedProjects) {
           if (!projects.contains(project) && isJavaProject(project)) {
             projects.add(project);
@@ -101,22 +94,8 @@ public class CreateWorkingSetWithDependenciesHandler extends AbstractHandler {
 
   private void showInformationMessage(ExecutionEvent event, String message) throws ExecutionException {
     IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-    MessageDialog.openInformation(window.getShell(), Messages.CreateWorkingSetWithDependenciesHandler_MessageDialogTitle, message);
-  }
-
-  private IProject getActiveProject(ExecutionEvent event) {
-    ISelection sel = HandlerUtil.getCurrentSelection(event);
-
-    if (sel instanceof IStructuredSelection) {
-      Object selected = ((IStructuredSelection) sel).getFirstElement();
-      if (selected != null) {
-        IResource resource = Platform.getAdapterManager().getAdapter(selected, IResource.class);
-        if (resource != null) {
-          return resource.getProject();
-        }
-      }
-    }
-    return null;
+    MessageDialog.openInformation(window.getShell(),
+        Messages.CreateWorkingSetWithDependenciesHandler_MessageDialogTitle, message);
   }
 
   private static List<String> getExistingWorkingSetNames() {
