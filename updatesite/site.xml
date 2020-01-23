@@ -6,6 +6,9 @@
    <feature url="features/dev.lonsing.eclipse.plugins.workingsettools.feature_1.0.0.202001222137.jar" id="dev.lonsing.eclipse.plugins.workingsettools.feature" version="1.0.0.202001222137">
       <category name="dev.lonsing.eclipse.plugins.workingsettools"/>
    </feature>
+   <feature url="features/dev.lonsing.eclipse.plugins.workingsettools.feature_1.0.1.202001230113.jar" id="dev.lonsing.eclipse.plugins.workingsettools.feature" version="1.0.1.202001230113">
+      <category name="dev.lonsing.eclipse.plugins.workingsettools"/>
+   </feature>
    <category-def name="dev.lonsing.eclipse.plugins.workingsettools" label="Working Set Tools">
       <description>
          An Eclipse Plugin which allows the user to create a Working Set which contains the project and project dependencies.
