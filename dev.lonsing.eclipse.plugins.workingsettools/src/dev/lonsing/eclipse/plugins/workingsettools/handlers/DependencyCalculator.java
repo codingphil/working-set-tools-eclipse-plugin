@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.maven.model.Dependency;
+import org.apache.maven.project.MavenProject;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -65,7 +66,11 @@ public class DependencyCalculator {
       return Collections.emptyList();
     }
     IMavenProjectFacade mavenProjectFacade = projectRegistry.getProject(project);
-    List<Dependency> dependencies = mavenProjectFacade.getMavenProject().getModel().getDependencies();
+    MavenProject mavenProject = mavenProjectFacade.getMavenProject();
+    if (mavenProject == null) {
+      return Collections.emptyList();
+    }
+    List<Dependency> dependencies = mavenProject.getModel().getDependencies();
     return dependencies.stream().map(this::getArtifactIdWithoutVersion).map(this.artifactIdToMavenProject::get)
         .filter(Objects::nonNull).collect(Collectors.toList());
   }
