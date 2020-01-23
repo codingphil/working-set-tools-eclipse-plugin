@@ -2,7 +2,7 @@
 <feature
       id="dev.lonsing.eclipse.plugins.workingsettools.feature"
       label="Working Set Tools"
-      version="1.0.1.qualifier"
+      version="1.0.2.qualifier"
       provider-name="Philip Lonsing">
 
    <description url="http://www.example.com/description">
