@@ -1,6 +1,7 @@
 package dev.lonsing.eclipse.plugins.workingsettools.dialogs;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -33,13 +34,13 @@ public class CreateWorkingSetDialog extends ListSelectionDialog {
 
   public CreateWorkingSetDialog(Shell parentShell, String workingSetName, IProject rootProject,
       List<IProject> projectDependencies, List<String> existingWorkingSetNames) {
-    super(parentShell, createProjectArray(rootProject, projectDependencies), ArrayContentProvider.getInstance(),
+    super(parentShell, createProjectList(rootProject, projectDependencies), ArrayContentProvider.getInstance(),
         new WorkbenchLabelProvider(), Messages.CreateWorkingSetDialog_ProjectSelectionListMessage);
     this.workingSetName = workingSetName;
     if (existingWorkingSetNames == null) {
-      this.existingWorkingSetNames = List.of();
+      this.existingWorkingSetNames = Collections.emptyList();
     } else {
-      this.existingWorkingSetNames = List.copyOf(existingWorkingSetNames);
+      this.existingWorkingSetNames = new ArrayList<>(existingWorkingSetNames);
     }
     this.setTitle(Messages.CreateWorkingSetDialog_Title);
     this.setInitialElementSelections(createProjectList(rootProject, projectDependencies));
@@ -149,7 +150,7 @@ public class CreateWorkingSetDialog extends ListSelectionDialog {
   }
 
   private boolean validateWorkingSetNameIsNotEmpty() {
-    boolean valid = !workingSetName.isBlank();
+    boolean valid = !workingSetName.trim().isEmpty();
     if (!valid) {
       workingSetNameDecoration.setDescriptionText(Messages.CreateWorkingSetDialog_ValidationEmptyWorkingSetName);
       workingSetNameDecoration.show();
@@ -170,10 +171,10 @@ public class CreateWorkingSetDialog extends ListSelectionDialog {
     this.getButton(buttonId).addSelectionListener(SelectionListener.widgetSelectedAdapter(listener));
   }
 
-  private static IProject[] createProjectArray(IProject rootProject, List<IProject> projectDependencies) {
-    return createProjectList(rootProject, projectDependencies).toArray(IProject[]::new);
-  }
-
+//  private static IProject[] createProjectArray(IProject rootProject, List<IProject> projectDependencies) {
+//    return createProjectList(rootProject, projectDependencies).toArray(IProject[]::new);
+//  }
+//
   private static List<IProject> createProjectList(IProject rootProject, List<IProject> projectDependencies) {
     List<IProject> allProjects = new ArrayList<>();
     allProjects.add(rootProject);

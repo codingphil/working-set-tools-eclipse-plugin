@@ -79,7 +79,7 @@ public class CreateWorkingSetWithDependenciesHandler extends AbstractHandler {
       while (i < projects.size()) {
         IProject currentProject = projects.get(i);
         Set<IProject> currentReferencedProjects = dependencyCalculator.getReferencedProjects(currentProject);
-        for (var project : currentReferencedProjects) {
+        for (IProject project : currentReferencedProjects) {
           if (!projects.contains(project) && isJavaProject(project)) {
             projects.add(project);
           }

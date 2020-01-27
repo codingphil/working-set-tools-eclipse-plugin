@@ -40,7 +40,7 @@ public class DependencyCalculator {
       while (i < projects.size()) {
         IProject currentProject = projects.get(i);
         Set<IProject> currentReferencedProjects = getReferencedProjects(currentProject);
-        for (var project : currentReferencedProjects) {
+        for (IProject project : currentReferencedProjects) {
           if (!projects.contains(project) && isJavaProject(project)) {
             projects.add(project);
           }
@@ -75,7 +75,7 @@ public class DependencyCalculator {
   private void initMavenProjects() {
     List<IProject> allMavenProjects = ProjectUtil.getAllProjects().stream().filter(ProjectUtil::isMavenProject)
         .collect(Collectors.toList());
-    for (var project : allMavenProjects) {
+    for (IProject project : allMavenProjects) {
       String id = getArtifactIdWithoutVersion(project);
       if (id != null) {
         artifactIdToMavenProject.put(id, project);
