@@ -9,7 +9,7 @@
    <feature url="features/dev.lonsing.eclipse.plugins.workingsettools.feature_1.0.1.202001230113.jar" id="dev.lonsing.eclipse.plugins.workingsettools.feature" version="1.0.1.202001230113">
       <category name="dev.lonsing.eclipse.plugins.workingsettools"/>
    </feature>
-   <feature url="features/dev.lonsing.eclipse.plugins.workingsettools.feature_1.0.2.202001232124.jar" id="dev.lonsing.eclipse.plugins.workingsettools.feature" version="1.0.2.202001232124">
+   <feature url="features/dev.lonsing.eclipse.plugins.workingsettools.feature_1.0.2.202001272314.jar" id="dev.lonsing.eclipse.plugins.workingsettools.feature" version="1.0.2.202001272314">
       <category name="dev.lonsing.eclipse.plugins.workingsettools"/>
    </feature>
    <category-def name="dev.lonsing.eclipse.plugins.workingsettools" label="Working Set Tools">
