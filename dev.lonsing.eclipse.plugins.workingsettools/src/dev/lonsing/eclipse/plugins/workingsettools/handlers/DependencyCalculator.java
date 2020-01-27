@@ -55,8 +55,10 @@ public class DependencyCalculator {
 
   public Set<IProject> getReferencedProjects(IProject project) throws CoreException {
     Set<IProject> referencedProjects = new HashSet<>();
-    referencedProjects.addAll(Arrays.asList(project.getReferencedProjects()));
-    referencedProjects.addAll(getReferencedMavenProjects(project));
+    if (project.isOpen()) {
+      referencedProjects.addAll(Arrays.asList(project.getReferencedProjects()));
+      referencedProjects.addAll(getReferencedMavenProjects(project));
+    }
     return referencedProjects;
   }
 

@@ -47,7 +47,7 @@ public class ProjectUtil {
 
   private static boolean hasProjectNature(IProject project, String natureId) {
     try {
-      return Arrays.asList(project.getDescription().getNatureIds()).indexOf(natureId) != -1;
+      return project.isOpen() && Arrays.asList(project.getDescription().getNatureIds()).indexOf(natureId) != -1;
     } catch (CoreException e) {
       throw new WorkingSetToolsException(Messages.CreateWorkingSetWithDependenciesHandler_FailedToCheckProjectNature,
           e);
