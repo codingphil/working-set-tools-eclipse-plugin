@@ -5,15 +5,16 @@
       version="1.0.2.qualifier"
       provider-name="Philip Lonsing">
 
-   <description url="http://www.example.com/description">
-      An Eclipse Plugin which allows the user to create a Working Set which contains the project and project dependencies.
+   <description url="https://codingphil.github.io/working-set-tools-eclipse-plugin/">
+      An Eclipse Plugin which allows the user to create a Working Set
+which contains the project and project dependencies.
    </description>
 
-   <copyright url="http://www.example.com/copyright">
+   <copyright url="https://raw.githubusercontent.com/codingphil/working-set-tools-eclipse-plugin/master/LICENSE">
       Copyright (c) 2020 Philip Lonsing
    </copyright>
 
-   <license url="http://www.example.com/license">
+   <license url="https://raw.githubusercontent.com/codingphil/working-set-tools-eclipse-plugin/master/LICENSE">
       MIT License
 
 Copyright (c) 2020 Philip Lonsing
